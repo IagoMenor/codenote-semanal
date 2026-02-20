@@ -3,11 +3,14 @@ body {
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
+    background-image: url('../img/fondo.jpg'); 
+    background-size: cover;
+    background-position: center;
 }
 
 header, footer {
-    background-color: #333;
-    color: white;
+    background-color: #1eccb7;
+    color: rgba(24, 4, 19, 0.984);
     text-align: center;
     padding: 10px 0;
 }
@@ -42,4 +45,20 @@ button:hover {
     margin-top: 15px;
     color: green;
     font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+
+select {
+    padding: 8px;
+    margin: 5px 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
