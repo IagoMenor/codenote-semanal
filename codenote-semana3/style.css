@@ -1,0 +1,172 @@
+/*
+Theme Name: Mi Tema Corporativo
+Author: Tu Nombre
+Version: 1.0
+*/
+
+:root {
+    --primary: #2563eb;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --text: #334155;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    background-color: var(--light);
+}
+
+/* --- HEADER Y NAVEGACIÓN --- */
+header {
+    background: var(--white);
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 80px;
+}
+
+/* Quitamos los puntos y centramos la lista del menú */
+header nav ul {
+    list-style: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo de los enlaces del menú */
+header li a, 
+.menu-principal-container a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    padding: 10px;
+}
+.hero {
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 500px; /* Altura mínima asegurada */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff !important; /* Forzamos color blanco */
+    text-align: center;
+}
+.hero h1, .hero p {
+    color: #ffffff !important;
+    margin: 10px 20px;
+}
+.services-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+.services-grid {
+    display: grid !important;
+    /* Esto crea 3 columnas automáticas que se adaptan al móvil */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important; 
+    gap: 30px !important;
+    margin-top: 40px;
+}
+.card {
+    background: #ffffff !important; /* Fondo blanco puro */
+    padding: 40px 30px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08) !important; /* Sombra suave */
+    border-bottom: 5px solid var(--primary) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12) !important;
+}
+.card h3 {
+    color: var(--dark);
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.card p {
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+/* --- ESTILOS FORMULARIO CONTACTO --- */
+.input-form, .select-form {
+    padding: 10px;
+    margin: 8px 0 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: block;
+}
+
+.btn-enviar {
+    background-color: var(--primary); /* Usamos tu azul corporativo */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: var(--dark);
+}
+
+.mensaje-exito {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+/* Estilos para el contenido de las páginas */
+.entry-content p {
+    margin-bottom: 20px;
+}
+
+.entry-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.entry-content h2 {
+    color: var(--dark);
+    margin-top: 40px;
+}
