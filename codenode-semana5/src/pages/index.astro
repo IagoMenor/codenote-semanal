@@ -1,0 +1,32 @@
+---
+import '../styles/global.css';
+const nombre = "Iago";
+const descripcion = "Estudiante de 2º de DAM apasionado por el desarrollo de aplicaciones y la creación de ecosistemas web modernos. Actualmente enfocado en la integración de CMS robustos como WordPress con tecnologías frontend de alto rendimiento como Astro.";
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<title>Mi Portfolio - Inicio</title>
+	</head>
+	<body class="bg-gray-50 text-gray-900 font-sans leading-normal tracking-normal">
+		<nav class="p-6 bg-white shadow-md flex justify-center gap-6">
+			<a href="/" class="text-indigo-600 hover:text-indigo-800 font-bold">Inicio</a>
+			<a href="/sobre-mi" class="text-gray-600 hover:text-indigo-600 transition">Sobre mí</a>
+			<a href="/proyectos" class="text-gray-600 hover:text-indigo-600 transition">Proyectos</a>
+		</nav>
+
+		<main class="max-w-3xl mx-auto mt-20 px-6 text-center">
+			<h1 class="text-5xl font-extrabold text-gray-900 mb-6">
+				Hola, soy <span class="text-indigo-600">{nombre}</span>
+			</h1>
+			<p class="text-xl text-gray-600 mb-8 italic">
+				"{descripcion}"
+			</p>
+			<div class="flex justify-center gap-4">
+				<span class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full text-sm font-semibold">📍 España</span>
+				<span class="bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold">🚀 Aprendiendo Astro</span>
+			</div>
+		</main>
+	</body>
+</html>

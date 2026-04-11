@@ -1,0 +1,52 @@
+---
+// Importamos el componente que acabamos de crear
+import ProjectCard from '../../components/ProjectCard.astro'; 
+import '../../styles/global.css';
+
+const proyectos = [
+  { 
+    titulo: "App Móvil de Gestión", 
+    descripcion: "Un sistema de administración de recursos desarrollado en WordPress y consumido mediante REST API.",
+    tags: ["WordPress", "API", "JS"]
+  },
+  { 
+    titulo: "Rediseño Web Corporativa", 
+    descripcion: "Modernización de interfaz y optimización de base de datos para mejorar la experiencia de usuario.",
+    tags: ["SEO", "UX", "Astro"]
+  },
+  {
+    titulo: "API de Títulos Personalizada",
+    descripcion: "Creación de un endpoint específico en PHP para filtrar datos JSON limpios.",
+    tags: ["PHP", "Backend"]
+  }
+];
+---
+
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<title>Mis Proyectos</title>
+	</head>
+	<body class="bg-gray-50 text-gray-900 font-sans">
+		<nav class="p-6 bg-white shadow-md flex justify-center gap-6">
+			<a href="/" class="text-gray-600 hover:text-indigo-600 transition">Inicio</a>
+			<a href="/sobre-mi" class="text-gray-600 hover:text-indigo-600 transition">Sobre mí</a>
+			<a href="/proyectos" class="text-indigo-600 font-bold">Proyectos</a>
+		</nav>
+
+		<main class="max-w-5xl mx-auto mt-16 px-6">
+			<h1 class="text-4xl font-bold text-center mb-4">Mis Casos de Éxito</h1>
+			<p class="text-center text-gray-600 mb-12 text-lg">Organizados mediante componentes reutilizables.</p>
+
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+				{proyectos.map((p) => (
+					<ProjectCard 
+                        titulo={p.titulo} 
+                        descripcion={p.descripcion} 
+                        tags={p.tags} 
+                    />
+				))}
+			</div>
+		</main>
+	</body>
+</html>
