@@ -1,54 +1,57 @@
 ---
+// src/pages/proyectos/index.astro
 import ProjectCard from '../../components/ProjectCard.astro';
 import '../../styles/global.css';
 
 let proyectos = [];
-let mensajeError = "";
+let wordpressEstaApagado = false;
 
 try {
-  // Usamos la URL que confirmamos que funciona
-  const urlApi = 'http://localhost/practicas-wordpress/wp-json/wp/v2/proyecto'; 
+  const response = await fetch('http://localhost/practicas-wordpress/wp-json/wp/v2/proyecto');
   
-  const response = await fetch(urlApi);
-  if (!response.ok) throw new Error(`Error: ${response.status}`);
-
-  proyectos = await response.json();
+  if (!response.ok) {
+    wordpressEstaApagado = true;
+  } else {
+    proyectos = await response.json();
+    wordpressEstaApagado = false; // Confirmamos que está encendido
+  }
 } catch (error) {
-  mensajeError = "No se pudieron cargar los proyectos. ¿Está XAMPP encendido?";
+  wordpressEstaApagado = true;
+  proyectos = [];
 }
 ---
 
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>Mis Proyectos | WordPress API</title>
+    <title>Mis Proyectos | WordPress</title>
   </head>
   <body class="bg-gray-50">
     <nav class="p-6 bg-white shadow-md flex justify-center gap-6 mb-12">
         <a href="/" class="text-gray-600 hover:text-indigo-600">Inicio</a>
-        <a href="/sobre-mi" class="text-gray-600 hover:text-indigo-600">Sobre mí</a>
         <a href="/proyectos" class="text-indigo-600 font-bold border-b-2 border-indigo-600">Proyectos</a>
     </nav>
 
     <main class="max-w-6xl mx-auto p-10">
-      <h1 class="text-4xl font-extrabold mb-8 text-indigo-900">Proyectos Reales (WordPress)</h1>
+      <h1 class="text-4xl font-extrabold mb-8 text-indigo-900">Listado de Proyectos</h1>
 
-      {mensajeError && (
-        <div class="bg-red-50 p-4 rounded-lg border border-red-200">
-          <p class="text-red-600">{mensajeError}</p>
+      {wordpressEstaApagado || proyectos.length === 0 ? (
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-xl shadow-sm">
+          <p class="text-yellow-800 font-bold text-lg">Aviso: Modo Offline</p>
+          <p class="text-yellow-700">No se puede conectar con WordPress. Mostrando estado vacío (sin romper la web).</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {proyectos.map((p) => (
+            <ProjectCard 
+              titulo={p.title.rendered} 
+              descripcion={p.excerpt?.rendered || "Sin descripción disponible."} 
+              slug={p.slug}
+              tags={["WordPress", "API"]} 
+            />
+          ))}
         </div>
       )}
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {proyectos.map((p) => (
-          <ProjectCard 
-            titulo={p.title.rendered} 
-            descripcion={p.excerpt?.rendered ? p.excerpt.rendered.replace(/<[^>]*>?/gm, '') : "Ver más detalles del proyecto."} 
-            slug={p.slug}
-            tags={["WP API", "DAM"]}
-          />
-        ))}
-      </div>
     </main>
   </body>
 </html>

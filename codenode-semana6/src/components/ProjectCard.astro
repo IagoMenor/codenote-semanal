@@ -1,32 +1,20 @@
 ---
 // src/components/ProjectCard.astro
-const { titulo, descripcion, tags } = Astro.props;
-
-/** * Generamos el slug automáticamente:
- * 1. Pasamos a minúsculas.
- * 2. Quitamos acentos (ej: "í" -> "i").
- * 3. Cambiamos espacios por guiones.
- */
-const slug = titulo
-  .toLowerCase()
-  .normalize("NFD")
-  .replace(/[\u0300-\u036f]/g, "")
-  .replace(/\s+/g, '-');
+// Recibimos el slug directamente de las props en lugar de generarlo
+// Ponemos tags = [] por defecto para que el .map() no falle nunca
+const { titulo, descripcion, slug, tags = ["Proyecto"] } = Astro.props;
 ---
 
 <a href={`/proyectos/${slug}`} class="group block h-full">
     <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 group-hover:border-indigo-500 group-hover:shadow-lg transition-all flex flex-col h-full">
         
-        <h2 class="text-xl font-bold text-indigo-600 mb-3 group-hover:text-indigo-700">
-            {titulo}
-        </h2>
+        <h2 class="text-xl font-bold text-indigo-600 mb-3 group-hover:text-indigo-700" set:html={titulo} />
         
-        <p class="text-gray-600 mb-4 text-sm leading-relaxed flex-grow">
-            {descripcion}
-        </p>
+        <p class="text-gray-600 mb-4 text-sm leading-relaxed flex-grow" set:html={descripcion} />
 
         <div class="flex flex-wrap gap-2 mb-4">
-            {tags.map((tag) => (
+            {/* El operador && asegura que si tags no existe, no se rompa */}
+            {tags && tags.map((tag) => (
                 <span class="text-xs font-semibold bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">
                     {tag}
                 </span>
