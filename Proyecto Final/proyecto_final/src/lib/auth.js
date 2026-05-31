@@ -1,15 +1,14 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-// Importamos la conexión física desde el index.js que sí tienes creado
-import { db } from "./db/index"; 
+import { db } from "./db"; // Tu conexión a base de datos
+import * as schema from "./db/schema"; // Importamos todo el esquema (tablas)
 
 export const auth = betterAuth({
-    // Le decimos a Better-Auth que use nuestro SQLite mediante Drizzle
     database: drizzleAdapter(db, {
         provider: "sqlite",
+        schema: schema // 👈 ¡Aquí le decimos a Better-Auth exactamente cuáles son tus tablas!
     }),
-    // Activamos el inicio de sesión clásico con Email y Contraseña
     emailAndPassword: {
-        enabled: true,
-    },
+        enabled: true // Habilita el registro con correo tradicional
+    }
 });

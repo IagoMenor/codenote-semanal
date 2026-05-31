@@ -41,15 +41,15 @@ export default function RegisterPage() {
       <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
         <label>
           Nombre Completo:
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required style={{ width: "100%", padding: "8px", marginTop: "5px", color: "#000" }} />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required style={{ width: "100%", padding: "8px", marginTop: "5px", color: "#b4a6a6" }} />
         </label>
         <label>
           Correo Electrónico:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: "100%", padding: "8px", marginTop: "5px", color: "#000" }} />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ width: "100%", padding: "8px", marginTop: "5px", color: "#b4a6a6" }} />
         </label>
         <label>
           Contraseña:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: "100%", padding: "8px", marginTop: "5px", color: "#000" }} />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required style={{ width: "100%", padding: "8px", marginTop: "5px", color: "#b4a6a6" }} />
         </label>
         <button type="submit" disabled={loading} style={{ padding: "10px", background: "#0070f3", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
           {loading ? "Registrando..." : "Registrarse"}
