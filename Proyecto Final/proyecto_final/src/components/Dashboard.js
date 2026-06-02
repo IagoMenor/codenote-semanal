@@ -57,6 +57,29 @@ export default function Dashboard({ user }) {
     }
   };
 
+  // 3. Manejar el borrado de un proyecto (Añadido con éxito)
+  const handleDelete = async (id) => {
+    if (!confirm("¿Estás seguro de que quieres eliminar este proyecto?")) return;
+
+    try {
+      const res = await fetch("/api/projects", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+
+      if (res.ok) {
+        // Filtramos el estado para quitar el proyecto borrado de la pantalla de inmediato
+        setProjects(projects.filter((project) => project.id !== id));
+      } else {
+        const data = await res.json();
+        alert(data.error || "No se pudo eliminar el proyecto");
+      }
+    } catch (err) {
+      console.error("Error al eliminar:", err);
+    }
+  };
+
   return (
     <div style={{
       display: "flex",
@@ -153,7 +176,29 @@ export default function Dashboard({ user }) {
                 padding: "20px",
                 borderRadius: "6px"
               }}>
-                <h4 style={{ margin: "0 0 8px 0", color: "#fff", fontSize: "18px" }}>{project.title}</h4>
+                {/* Cabecera de la tarjeta con alineación flexible para colocar el botón de eliminar a la derecha */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: "10px" }}>
+                  <h4 style={{ margin: "0 0 8px 0", color: "#fff", fontSize: "18px" }}>{project.title}</h4>
+                  <button
+                    onClick={() => handleDelete(project.id)}
+                    style={{
+                      background: "transparent",
+                      color: "#ff4444",
+                      border: "1px solid #ff4444",
+                      borderRadius: "4px",
+                      padding: "4px 8px",
+                      fontSize: "12px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      transition: "all 0.2s"
+                    }}
+                    onMouseEnter={(e) => { e.target.style.background = "#ff4444"; e.target.style.color = "white"; }}
+                    onMouseLeave={(e) => { e.target.style.background = "transparent"; e.target.style.color = "#ff4444"; }}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+                
                 <p style={{ margin: "0 0 12px 0", color: "#ccc", fontSize: "15px", lineHeight: "1.4" }}>{project.description}</p>
                 {project.url && (
                   <a href={project.url} target="_blank" rel="noopener noreferrer" style={{ color: "#0070f3", textDecoration: "none", fontSize: "14px", fontWeight: "500" }}>
