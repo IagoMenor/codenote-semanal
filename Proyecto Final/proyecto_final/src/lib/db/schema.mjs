@@ -56,11 +56,12 @@ export const verification = sqliteTable("verification", {
 
 // 5. NUESTRA TABLA: Proyectos Locales (Mínimo técnico del profesor)
 export const projects = sqliteTable("projects", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
+  id: text("id").primaryKey(), // Usaremos UUIDs en texto para evitar conflictos de ids incrementales en cliente
   title: text("title").notNull(),
   description: text("description").notNull(),
   url: text("url"), // Enlace opcional al despliegue o repo
   userId: text("userId") // Para saber qué usuario guardó este proyecto
-    .references(() => user.id),
-  createdAt: integer("createdAt", { mode: "timestamp" }),
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }), // Si se borra el usuario, se limpian sus proyectos
+  createdAt: integer("createdAt", { mode: "timestamp" }).notNull(),
 });
