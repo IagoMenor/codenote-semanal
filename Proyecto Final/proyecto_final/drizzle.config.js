@@ -1,11 +1,11 @@
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  // Dónde leeremos las tablas que vamos a crear
-schema: "./src/lib/db/schema.mjs",
+  schema: "./src/lib/db/schema.mjs",
   out: "./drizzle",
-  dialect: "sqlite",
+  // Si hay una url de Postgres usa postgresql, si no, usa sqlite
+  dialect: process.env.POSTGRES_URL ? "postgresql" : "sqlite",
   dbCredentials: {
-    url: "./local.db",
+    url: process.env.POSTGRES_URL || "./local.db",
   },
 });
