@@ -1,8 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+// Importamos la herramienta de navegación de Next.js y el cliente de Better-Auth
+import { useRouter } from "next/navigation";
+import { createAuthClient } from "better-auth/react";
+
+const authClient = createAuthClient();
 
 export default function Dashboard({ user }) {
+  const router = useRouter();
   const [projects, setProjects] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -57,7 +63,7 @@ export default function Dashboard({ user }) {
     }
   };
 
-  // 3. Manejar el borrado de un proyecto (Añadido con éxito)
+  // 3. Manejar el borrado de un proyecto
   const handleDelete = async (id) => {
     if (!confirm("¿Estás seguro de que quieres eliminar este proyecto?")) return;
 
@@ -80,6 +86,18 @@ export default function Dashboard({ user }) {
     }
   };
 
+  // 4. Función para Cerrar Sesión de forma segura
+  const handleLogout = async () => {
+    try {
+      await authClient.signOut();
+      // Una vez destruida la sesión, redirigimos al usuario a la pantalla de login
+      router.push("/login");
+      router.refresh();
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
+  };
+
   return (
     <div style={{
       display: "flex",
@@ -90,10 +108,37 @@ export default function Dashboard({ user }) {
       fontFamily: "sans-serif",
       color: "white"
     }}>
-      {/* Cabecera de bienvenida */}
-      <div style={{ textAlign: "center", borderBottom: "1px solid #333", paddingBottom: "20px" }}>
-        <h1 style={{ color: "#0070f3", margin: "0 0 10px 0" }}>¡Bienvenido al Panel de Control!</h1>
-        <p style={{ fontSize: "18px", margin: 0 }}>Hola de nuevo, <strong>{user.name}</strong> 👋</p>
+      {/* Cabecera de bienvenida con botón de cerrar sesión */}
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: "center", 
+        borderBottom: "1px solid #333", 
+        paddingBottom: "20px" 
+      }}>
+        <div style={{ textAlign: "left" }}>
+          <h1 style={{ color: "#0070f3", margin: "0 0 5px 0", fontSize: "24px" }}>¡Bienvenido al Panel!</h1>
+          <p style={{ fontSize: "16px", margin: 0 }}>Hola de nuevo, <strong>{user.name}</strong> 👋</p>
+        </div>
+        
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: "8px 16px",
+            background: "#222",
+            color: "#ccc",
+            border: "1px solid #444",
+            borderRadius: "6px",
+            cursor: "pointer",
+            fontWeight: "500",
+            fontSize: "14px",
+            transition: "all 0.2s"
+          }}
+          onMouseEnter={(e) => { e.target.style.background = "#ff3333"; e.target.style.color = "white"; e.target.style.borderColor = "#ff3333"; }}
+          onMouseLeave={(e) => { e.target.style.background = "#222"; e.target.style.color = "#ccc"; e.target.style.borderColor = "#444"; }}
+        >
+          Cerrar Sesión
+        </button>
       </div>
 
       {/* Formulario para añadir nuevos proyectos */}
@@ -176,7 +221,6 @@ export default function Dashboard({ user }) {
                 padding: "20px",
                 borderRadius: "6px"
               }}>
-                {/* Cabecera de la tarjeta con alineación flexible para colocar el botón de eliminar a la derecha */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", gap: "10px" }}>
                   <h4 style={{ margin: "0 0 8px 0", color: "#fff", fontSize: "18px" }}>{project.title}</h4>
                   <button
