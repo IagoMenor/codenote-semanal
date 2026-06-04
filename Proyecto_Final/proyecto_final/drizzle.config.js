@@ -1,11 +1,12 @@
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  schema: "./src/lib/db/schema.mjs",
+  schema: "./auth-schema.ts",
   out: "./drizzle",
-  // Si hay una url de Postgres usa postgresql, si no, usa sqlite
-  dialect: process.env.POSTGRES_URL ? "postgresql" : "sqlite",
+  // Cambiado a DATABASE_URL
+  dialect: process.env.DATABASE_URL ? "postgresql" : "sqlite",
   dbCredentials: {
-    url: process.env.POSTGRES_URL || "./local.db",
+    // Cambiado a DATABASE_URL
+    url: process.env.DATABASE_URL || "./local.db",
   },
 });
