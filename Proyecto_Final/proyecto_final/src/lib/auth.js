@@ -5,7 +5,7 @@ import * as schema from "./db/schema.mjs"; // Importamos todo el esquema (tablas
 
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
-        provider: "sqlite",
+        provider: "pg",
         schema: schema // 👈 ¡Aquí le decimos a Better-Auth exactamente cuáles son tus tablas!
     }),
     emailAndPassword: {
