@@ -18,14 +18,12 @@ const handleRegister = async (e) => {
     setLoading(true);
 
     try {
-      // Enviamos el objeto con campos explícitos que Better-Auth suele requerir
-      const result = await authClient.signUp.email({
-        email,
-        password,
-        name,
-        // Algunos esquemas requieren estos campos vacíos si no están en el formulario
-        image: "", 
-      });
+    const result = await authClient.signUp.email({
+  email: email.trim(), // Aquí es donde añadimos el .trim()
+  password: password,
+  name: name,
+  image: "", 
+});
 
       if (result.error) {
         // Mostramos el mensaje real que nos devuelve el servidor
