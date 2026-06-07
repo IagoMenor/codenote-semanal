@@ -12,26 +12,32 @@ export default function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const handleRegister = async (e) => {
+const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    // Llamamos al cliente de Better-Auth para registrar al usuario en SQLite
-    const { data, error: authError } = await authClient.signUp.email({
-      email,
-      password,
-      name,
-    });
+    try {
+      // Enviamos el objeto con campos explícitos que Better-Auth suele requerir
+      const result = await authClient.signUp.email({
+        email,
+        password,
+        name,
+        // Algunos esquemas requieren estos campos vacíos si no están en el formulario
+        image: "", 
+      });
 
-    setLoading(false);
-
-    if (authError) {
-      setError(authError.message || "Error al registrar el usuario");
-    } else {
-      // Si se registra con éxito, le mandamos al login de inmediato
-      router.push("/login");
+      if (result.error) {
+        // Mostramos el mensaje real que nos devuelve el servidor
+        console.error("Error detallado:", result.error);
+        setError(result.error.message || "Error al registrarse");
+      } else {
+        router.push("/login");
+      }
+    } catch (err) {
+      setError("Error inesperado en el servidor");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,3 +113,4 @@ export default function RegisterPage() {
     </div>
   );
 }
+//
