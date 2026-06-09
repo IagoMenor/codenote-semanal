@@ -1,16 +1,33 @@
 import { db } from "@/lib/db";
 import { posts } from "@/lib/schema";
-import { createPost, updatePost, deletePost } from "@/lib/actions"; // Importamos las acciones
+import { createPost, updatePost, deletePost } from "@/lib/actions";
 import ReactMarkdown from "react-markdown";
+import DevToArticles from "../components/DevToArticles";
 
-export default async function Home({ searchParams }: { searchParams: { edit?: string } }) {
-  const editId = Number((await searchParams).edit);
-  const allPosts = db.select().from(posts).all().reverse();
+export default async function Home({ searchParams }: { searchParams: { edit?: string, query?: string } }) {
+  const params = await searchParams;
+  const editId = Number(params.edit);
+  const query = params.query || "";
+
+  // Obtenemos todos los posts y filtramos en memoria (compatible con cualquier base de datos)
+  const allPosts = db.select().from(posts).all().reverse().filter((post) =>
+    post.title.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
     <main className="min-h-screen py-12 px-4">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl font-extrabold text-center mb-12">Mi Blog Técnico</h1>
+
+        {/* Buscador: Al escribir y dar a Enter, recarga la página con el query en la URL */}
+        <form className="mb-8">
+          <input 
+            name="query" 
+            placeholder="Buscar por título..." 
+            defaultValue={query}
+            className="w-full p-4 border border-gray-200 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </form>
 
         <form action={createPost} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 mb-10">
           <input name="title" placeholder="Título" className="w-full p-3 mb-3 border border-gray-300 rounded" required />
@@ -53,6 +70,10 @@ export default async function Home({ searchParams }: { searchParams: { edit?: st
             </article>
           ))}
         </div>
+
+        {/* Componente de la API externa añadido aquí */}
+        <DevToArticles />
+
       </div>
     </main>
   );
