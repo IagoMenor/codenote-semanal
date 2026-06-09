@@ -1,36 +1,10 @@
 import { db } from "@/lib/db";
 import { posts } from "@/lib/schema";
-import { revalidatePath } from "next/cache";
-import { eq } from "drizzle-orm";
+import { createPost, updatePost, deletePost } from "@/lib/actions"; // Importamos las acciones
 import ReactMarkdown from "react-markdown";
 
 export default async function Home({ searchParams }: { searchParams: { edit?: string } }) {
   const editId = Number((await searchParams).edit);
-
-  async function createPost(formData: FormData) {
-    "use server";
-    const title = formData.get("title") as string;
-    const content = formData.get("content") as string;
-    if (!title.trim() || !content.trim()) return;
-    await db.insert(posts).values({ title, content }).run();
-    revalidatePath("/");
-  }
-
-  async function updatePost(formData: FormData) {
-    "use server";
-    const id = Number(formData.get("id"));
-    const title = formData.get("title") as string;
-    const content = formData.get("content") as string;
-    await db.update(posts).set({ title, content }).where(eq(posts.id, id)).run();
-    revalidatePath("/");
-  }
-
-  async function deletePost(id: number) {
-    "use server";
-    await db.delete(posts).where(eq(posts.id, id)).run();
-    revalidatePath("/");
-  }
-
   const allPosts = db.select().from(posts).all().reverse();
 
   return (
