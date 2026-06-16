@@ -9,10 +9,13 @@ export default async function Home({ searchParams }: { searchParams: { edit?: st
   const editId = Number(params.edit);
   const query = params.query || "";
 
-  // Obtenemos todos los posts y filtramos en memoria (compatible con cualquier base de datos)
-  const allPosts = db.select().from(posts).all().reverse().filter((post) =>
-    post.title.toLowerCase().includes(query.toLowerCase())
-  );
+ // 1. Traemos los posts desde la nube esperando a que termine (await)
+const rawPosts = await db.select().from(posts);
+
+// 2. Les damos la vuelta y filtramos en memoria por el buscador
+const allPosts = [...rawPosts].reverse().filter((post) =>
+  post.title.toLowerCase().includes(query.toLowerCase())
+);
 
   return (
     <main className="min-h-screen py-12 px-4">
